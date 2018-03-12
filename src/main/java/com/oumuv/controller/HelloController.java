@@ -10,19 +10,31 @@ import javax.jms.Destination;
 @RestController
 public class HelloController {
 
+
     @Autowired
     private Producer producer;
 
-    @RequestMapping("/hello")
-    public String say(){
-        SenderMessages();
+    @RequestMapping("/queue")
+    public String say1(){
+        SenderMessagesQueue();
         return "success";
     }
 
-    public void SenderMessages() {
-        Destination destination = new ActiveMQQueue("mytest.queue");
-        for(int i=0; i<100; i++){
-            producer.sendMessage(destination,"myname is chhliu!!!"+i);
+    @RequestMapping("/topic")
+    public String say2(){
+        SenderMessagesTopic();
+        return "success";
+    }
+
+    public void SenderMessagesQueue() {
+        for(int i=0; i<10; i++){
+            producer.sendMessageQueue("myname is queue!!!"+i);
+        }
+    }
+
+    public void SenderMessagesTopic() {
+        for(int i=0; i<10; i++){
+            producer.sendMessageTopic("myname is topic!!!"+i);
         }
     }
 
